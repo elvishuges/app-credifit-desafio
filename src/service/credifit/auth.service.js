@@ -1,5 +1,4 @@
 import request from './';
-
 export default {
   login(email, senha) {
     var obj = {
