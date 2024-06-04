@@ -5,7 +5,7 @@
       <v-row class="mt-2">
         <v-col v-for="company in agreedCompanies" :key="company.id" cols="4">
           <v-sheet
-            @click="onAgreeCompanyClick"
+            @click="onAgreedCompanyClick(company)"
             rounded
             class="pa-4 custom-border"
           >
@@ -19,18 +19,18 @@
           </v-sheet>
         </v-col>
       </v-row>
-      <!-- <v-row class="mt-2">
-        <v-col cols="6">
-          <v-sheet
-            @click="onCreateCompanyClick"
-            rounded
-            class="pa-4 custom-border-create-company"
-          >
-            <div>Cadastrar Nova Empresa parceira</div>
-          </v-sheet>
-        </v-col>
-      </v-row> -->
-      <!-- Botão para adicionar nova empresa -->
+      <v-btn
+        style="margin-bottom: 10px"
+        color="primary"
+        dark
+        absolute
+        bottom
+        right
+        x-large
+        @click="onCreateCompanyClick"
+      >
+        Cadastrar Empresa
+      </v-btn>
     </v-container>
   </div>
 </template>
@@ -46,10 +46,11 @@ export default {
   },
   methods: {
     onCreateCompanyClick() {
-      this.$router.push({ path: '/create-company' });
+      this.$router.push({ path: 'admin/create-company' });
     },
-    onAgreeCompanyClick() {
-      this.$router.push({ path: '/admin/add-company-employees' });
+    onAgreedCompanyClick(agreedCompany) {
+      const path = `/admin/agreed-company-page/${agreedCompany.id}`;
+      this.$router.push({ path: path });
     },
     async loadAgreedCompanies() {
       try {
@@ -70,12 +71,9 @@ export default {
 .custom-border {
   border-left: 6px solid #00b8e6f1;
   background-color: #fafafa;
-}
-.custom-border-create-company {
   cursor: pointer;
-  background-color: #fafafa;
-  border-left: 6px solid #e98364f1;
 }
+
 .action-btn {
   padding: 20px;
 }

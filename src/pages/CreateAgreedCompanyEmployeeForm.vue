@@ -1,37 +1,17 @@
 <template>
-  <v-card outlined>
+  <v-card outlined elevation="0" style="height: 100%">
     <v-divider />
     <v-card-text>
       <v-form ref="form" v-model="formaValid" lazy-validation>
         <v-container class="mt-0">
           <v-row>
-            <v-col cols="12" class="mt-0 pa-0"> <h3>Empresa:</h3> </v-col>
-            <v-col cols="12" class="pa-0 pt-2 pb-0 mb-0">
-              <v-text-field
-                v-model="form.companyName"
-                :rules="textRules"
-                label="Nome da Empresa"
-                required
-                outlined
-                class="pb-0 mb-0"
-              ></v-text-field>
-            </v-col>
             <v-col cols="12" class="pa-0"> <h3>Representante:</h3> </v-col>
 
-            <v-col cols="6" class="pt-2 pa-0">
+            <v-col cols="12" class="pt-2 pa-0">
               <v-text-field
                 v-model="form.fullName"
                 :rules="textRules"
                 label="Nome Completo"
-                required
-                outlined
-              ></v-text-field>
-            </v-col>
-            <v-col cols="6" class="pt-2 pa-0 pl-2">
-              <v-text-field
-                v-model="form.companyName"
-                :rules="textRules"
-                label="Razão Social"
                 required
                 outlined
               ></v-text-field>
@@ -45,15 +25,25 @@
                 outlined
               ></v-text-field>
             </v-col>
-            <v-col cols="6" class="mt-0 pa-0 pl-2">
+            <v-col cols="3" class="pa-0 pl-2">
               <v-text-field
-                v-model="form.cnpj"
-                :rules="textRules"
-                label="CNPJ"
+                v-model="form.salary"
+                label="Salário"
                 required
                 outlined
+                type="number"
               ></v-text-field>
             </v-col>
+            <v-col cols="3" class="pa-0 pl-2">
+              <v-text-field
+                v-model="form.score"
+                label="Score"
+                required
+                outlined
+                type="number"
+              ></v-text-field>
+            </v-col>
+
             <v-col cols="12" class="pa-0">
               <v-text-field
                 v-model="form.email"
@@ -83,7 +73,7 @@
               dark
               color="primary"
               @click="submitForm"
-              >Cadastrar Empresa</v-btn
+              >Cadastrar Funcionário</v-btn
             >
           </v-card-actions>
         </v-container>
@@ -107,13 +97,15 @@ export default {
     return {
       showSnackbar: false,
       textSnackbar: '',
+      agreedCompanyId: '',
       form: {
         fullName: '',
-        companyName: '',
+        salary: 0,
+        score: 0,
         cpf: '',
-        cnpj: '',
         email: '',
         password: '',
+        agreedCompanyId: '',
       },
       formaValid: true,
       textRules: [
@@ -130,6 +122,9 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.agreedCompanyId = this.$route.params.id;
+  },
 
   methods: {
     login() {
@@ -137,20 +132,13 @@ export default {
     },
     async submitForm() {
       if (this.$refs.form.validate()) {
-        const payload = {
-          name: this.form.companyName,
-          representative: {
-            fullName: this.form.fullName,
-            companyName: this.form.companyName,
-            cpf: this.form.cpf,
-            cnpj: this.form.cnpj,
-            email: this.form.email,
-            password: this.form.password,
-          },
-        };
+        const agreedCompanyId = this.agreedCompanyId;
+        this.form.agreedCompanyId = agreedCompanyId;
+        const payload = this.form;
+
         try {
-          await agreedCompanyService.createAgreedCompany(payload);
-          this.textSnackbar = 'Empresa adicionada com sucesso!';
+          await agreedCompanyService.addEmployee(agreedCompanyId, payload);
+          this.textSnackbar = 'Funcionário adicionado com sucesso!';
           this.showSnackbar = true;
           this.resetForm();
         } catch (error) {

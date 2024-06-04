@@ -2,7 +2,9 @@
   <v-app>
     <v-app-bar app color="cyan darken-2" dark>
       <div class="d-flex align-center">
-        <v-img style="width: 150px" src="./assets/Brand.png"></v-img>
+        <router-link to="/admin">
+          <v-img style="width: 150px" src="./assets/Brand.png"></v-img>
+        </router-link>
       </div>
 
       <v-spacer></v-spacer>

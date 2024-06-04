@@ -4,6 +4,8 @@ import ConsignedCreditStatus from './../pages/ConsignedCreditStatus';
 import HomePage from './../pages/HomePage';
 import AdmPage from './../pages/AdmPage';
 import CreateCompanyForm from './../pages/CreateCompanyForm';
+import AgreedCompanyPage from './../pages/AgreedCompanyPage';
+import CreateAgreedCompanyEmployeeForm from './../pages/CreateAgreedCompanyEmployeeForm';
 
 const routes = [
   { path: '/login', component: LoginPage },
@@ -12,7 +14,12 @@ const routes = [
   { path: '/status-credito-consignado', component: ConsignedCreditStatus },
   //admin
   { path: '/admin', component: AdmPage },
-  { path: '/create-company', component: CreateCompanyForm },
+  { path: '/admin/create-company', component: CreateCompanyForm },
+  { path: '/admin/agreed-company-page/:id', component: AgreedCompanyPage },
+  {
+    path: '/admin/agreed-company/:id/employee-form',
+    component: CreateAgreedCompanyEmployeeForm,
+  },
   { path: '/', component: HomePage },
 ];
 
