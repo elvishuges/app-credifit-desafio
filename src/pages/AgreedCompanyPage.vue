@@ -3,14 +3,23 @@
     <v-container style="height: 70vh">
       <h3>Funcionários Cadastrados:</h3>
       <v-row class="mt-2">
+        <v-col v-if="agreedCompanyEmployees.length === 0" cols="12">
+          <v-sheet rounded class="pa-4 custom-border">
+            <p class="font-weight-black pb-0 mb-0">
+              Nenhum funcionário cadastrado
+            </p>
+          </v-sheet>
+        </v-col>
         <v-col
           v-for="employee in agreedCompanyEmployees"
           :key="employee.id"
           cols="4"
         >
           <v-sheet rounded class="pa-4 custom-border">
-            <p class="font-weight-black pb-0 mb-0">{{ employee.name }}</p>
-            <div class="ms-0 text-subtitle-2">Representante</div>
+            <p class="font-weight-black pb-0 mb-0">{{ employee.fullName }}</p>
+            <div class="ms-0 text-subtitle-2">
+              <p class="font-weight-black pb-0 mb-0">CPF: {{ employee.cpf }}</p>
+            </div>
 
             <div></div>
           </v-sheet>

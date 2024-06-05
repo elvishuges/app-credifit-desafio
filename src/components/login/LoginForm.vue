@@ -37,9 +37,6 @@
         >Login</v-btn
       >
     </v-card-actions>
-    <v-card-actions>
-      <v-btn @click="register()" dark block color="secondary">Register</v-btn>
-    </v-card-actions>
   </div>
 </template>
 

@@ -7,7 +7,7 @@
           @click="onInstallmentClick(index)"
           rounded
           class="pa-4 custom-border"
-          :color="clickedInstallmentIndex == index ? 'red lighten-4' : ''"
+          :class="[{ highlight: clickedInstallmentIndex == index }]"
         >
           <span class="text-grey font-weight-bold">
             {{ item.numberOfInstallments }} X de R$
@@ -45,8 +45,11 @@ export default {
 
 <style scoped>
 .custom-border {
+  /* Estilos personalizados aqui */
   border-left: 6px solid #e66900;
-  background-color: #fafafa;
+}
+.highlight {
+  border-left: 6px solid #e66900;
 }
 .installments {
   cursor: pointer;

@@ -6,23 +6,12 @@
         <v-container class="mt-0">
           <v-row>
             <v-col cols="12" class="mt-0 pa-0"> <h3>Empresa:</h3> </v-col>
-            <v-col cols="12" class="pa-0 pt-2 pb-0 mb-0">
-              <v-text-field
-                v-model="form.companyName"
-                :rules="textRules"
-                label="Nome da Empresa"
-                required
-                outlined
-                class="pb-0 mb-0"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" class="pa-0"> <h3>Representante:</h3> </v-col>
 
             <v-col cols="6" class="pt-2 pa-0">
               <v-text-field
                 v-model="form.fullName"
                 :rules="textRules"
-                label="Nome Completo"
+                label="Nome Completo do Representante"
                 required
                 outlined
               ></v-text-field>
@@ -40,7 +29,7 @@
               <v-text-field
                 v-model="form.cpf"
                 :rules="cpfRules"
-                label="CPF"
+                label="CPF do Representante"
                 required
                 outlined
                 v-mask="'###.###.###-##'"
@@ -153,15 +142,12 @@ export default {
     async submitForm() {
       if (this.$refs.form.validate()) {
         const payload = {
-          name: this.form.companyName,
-          representative: {
-            fullName: this.form.fullName,
-            companyName: this.form.companyName,
-            cpf: this.form.cpf,
-            cnpj: this.form.cnpj,
-            email: this.form.email,
-            password: this.form.password,
-          },
+          fullName: this.form.fullName,
+          companyName: this.form.companyName,
+          cpf: this.form.cpf,
+          cnpj: this.form.cnpj,
+          email: this.form.email,
+          password: this.form.password,
         };
         try {
           await agreedCompanyService.createAgreedCompany(payload);

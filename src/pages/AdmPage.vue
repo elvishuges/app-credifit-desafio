@@ -3,17 +3,24 @@
     <v-container style="height: 70vh">
       <h3>Empresas Conveniadas:</h3>
       <v-row class="mt-2">
+        <v-col v-if="agreedCompanies.length === 0" cols="6">
+          <v-sheet rounded class="pa-4 custom-border">
+            <p class="font-weight-black pb-0 mb-0">
+              Nenhuma empresa cadastrada
+            </p>
+          </v-sheet>
+        </v-col>
         <v-col v-for="company in agreedCompanies" :key="company.id" cols="4">
           <v-sheet
             @click="onAgreedCompanyClick(company)"
             rounded
             class="pa-4 custom-border"
           >
-            <p class="font-weight-black pb-0 mb-0">{{ company.name }}</p>
+            <p class="font-weight-black pb-0 mb-0">{{ company.companyName }}</p>
             <div class="ms-0 text-subtitle-2">Representante</div>
             <div class="ms-0 text-subtitle-2">
-              nome: {{ company.representative.fullName }},cnpj:
-              {{ company.representative.cnpj }}
+              Nome: {{ company.fullName }}, CPF:
+              {{ company.cpf }}
             </div>
             <div></div>
           </v-sheet>

@@ -19,10 +19,11 @@
             <v-col cols="6" class="mt-0 pa-0">
               <v-text-field
                 v-model="form.cpf"
-                :rules="textRules"
+                :rules="cpfRules"
                 label="CPF"
                 required
                 outlined
+                v-mask="'###.###.###-##'"
               ></v-text-field>
             </v-col>
             <v-col cols="3" class="pa-0 pl-2">
@@ -91,6 +92,10 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import VueMask from 'v-mask';
+
+Vue.use(VueMask);
 import agreedCompanyService from '@/service/credifit/company.service';
 export default {
   data() {
@@ -119,6 +124,10 @@ export default {
       passwordRules: [
         (v) => !!v || 'Campo obrigatório',
         (v) => (v && v.length < 20) || 'Senha deve ter menos de 20 caracteres',
+      ],
+      cpfRules: [
+        (v) => !!v || 'Campo obrigatório',
+        (v) => (v && v.length === 14) || 'CPF inválido',
       ],
     };
   },

@@ -20,7 +20,8 @@
 export default {
   methods: {
     onConsignedCreditClick() {
-      this.$router.push('/credito-consignado');
+      const employeeId = 1;
+      this.$router.push(`/credito-consignado/funcionario/${employeeId}`);
     },
   },
 };

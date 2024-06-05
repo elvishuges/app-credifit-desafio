@@ -186,7 +186,7 @@ export default {
           this.employeeId,
           this.consignedCreditValue
         );
-        return resp.data || [];
+        return resp?.data || [];
       } catch (error) {
         console.log('Error', error.response.data.message);
         this.snackbarText = error.response.data.message;
