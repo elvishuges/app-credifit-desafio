@@ -1,25 +1,20 @@
 <template>
   <div>
     Divididas em:
-    <v-row class="mt-2">
-      <v-col cols="6">
-        <v-sheet rounded class="pa-4 custom-border">
-          Step 1 - Coluna 1
-        </v-sheet>
-      </v-col>
-      <v-col cols="6">
-        <v-sheet rounded class="pa-4 custom-border">
-          Step 1 - Coluna 1
-        </v-sheet>
-      </v-col>
-      <v-col cols="6">
-        <v-sheet rounded class="pa-4 custom-border">
-          Step 3 - Coluna 1
-        </v-sheet>
-      </v-col>
-      <v-col cols="6">
-        <v-sheet rounded class="pa-4 custom-border">
-          Step 3 - Coluna 2
+    <v-row class="mt-2 installments">
+      <v-col v-for="(item, index) in installmentsArray" :key="index" cols="6">
+        <v-sheet
+          @click="onInstallmentClick(index)"
+          rounded
+          class="pa-4 custom-border"
+          :color="clickedInstallmentIndex == index ? 'red lighten-4' : ''"
+        >
+          <span class="text-grey font-weight-bold">
+            {{ item.numberOfInstallments }} X de R$
+          </span>
+          <span class="text-blue font-weight-bold">
+            {{ item.installmentValue }}
+          </span>
         </v-sheet>
       </v-col>
     </v-row>
@@ -27,12 +22,33 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    installmentsArray: {
+      type: Array,
+      default: () => [],
+      required: true,
+    },
+    clickedInstallmentIndex: {
+      type: Number,
+      default: -1,
+      required: true,
+    },
+  },
+  methods: {
+    onInstallmentClick(installmentIndex) {
+      this.$emit('onInstallmentClick', installmentIndex);
+    },
+  },
+};
 </script>
 
 <style scoped>
 .custom-border {
   border-left: 6px solid #e66900;
   background-color: #fafafa;
+}
+.installments {
+  cursor: pointer;
 }
 </style>

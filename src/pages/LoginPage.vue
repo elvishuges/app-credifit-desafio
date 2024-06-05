@@ -33,16 +33,19 @@ export default {
     };
   },
   methods: {
-    submitForm(payload) {
-      const { email, senha } = payload;
-      console.log(email, senha);
-      this.alert = false;
+    async submitForm(payload) {
+      const { email, password } = payload;
+      console.log(email, password);
+      this.showAlert = false;
       this.msg = '';
       this.loading = true;
       try {
-        const resp = authService.login(email, senha);
+        const resp = await authService.login(email, password);
         console.log('Login bem-sucedido:', resp.data);
       } catch (error) {
+        this.loading = false;
+        this.showAlert = true;
+        this.msg = 'Senha Invalida';
         console.log(error);
       }
     },

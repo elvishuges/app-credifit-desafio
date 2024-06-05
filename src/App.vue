@@ -14,7 +14,7 @@
         target="_blank"
         text
       >
-        <span class="mr-2">Elvis Huges</span>
+        <span class="mr-2">Credifit</span>
       </v-btn>
     </v-app-bar>
 

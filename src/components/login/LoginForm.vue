@@ -15,11 +15,11 @@
           v-on:keyup.enter="$refs.form.validate() && submit()"
         ></v-text-field>
         <v-text-field
-          v-model="form.senha"
-          :rules="senhaRules"
+          v-model="form.password"
+          :rules="passwordRules"
           prepend-icon="mdi-lock"
-          name="senha"
-          label="Senha"
+          name="password"
+          label="senha"
           type="password"
           outlined
           dense
@@ -56,9 +56,9 @@ export default {
       validFormLogin: true,
       form: {
         email: '',
-        senha: '',
+        password: '',
       },
-      senhaRules: [(v) => !!v || 'Campo obrigatório'],
+      passwordRules: [(v) => !!v || 'Campo obrigatório'],
       emailRules: [
         (value) => !!value || 'Campo Obrigatório.',
         (v) => /.+@.+\..+/.test(v) || 'E-mail deve ser válido',

@@ -1,5 +1,5 @@
 import LoginPage from './../pages/LoginPage';
-import ConsignedCredit from './../pages/ConsignedCredit';
+import ConsignedCredit from './../pages/ConsignedCreditPage';
 import ConsignedCreditStatus from './../pages/ConsignedCreditStatus';
 import HomePage from './../pages/HomePage';
 import AdmPage from './../pages/AdmPage';
@@ -10,7 +10,7 @@ import CreateAgreedCompanyEmployeeForm from './../pages/CreateAgreedCompanyEmplo
 const routes = [
   { path: '/login', component: LoginPage },
   // Funcionarios
-  { path: '/credito-consignado', component: ConsignedCredit },
+  { path: '/credito-consignado/funcionario/:id', component: ConsignedCredit },
   { path: '/status-credito-consignado', component: ConsignedCreditStatus },
   //admin
   { path: '/admin', component: AdmPage },

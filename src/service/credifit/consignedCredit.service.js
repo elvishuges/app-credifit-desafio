@@ -1,11 +1,11 @@
 import request from './';
 
 export default {
-  checkAprovedConsignedCredid(payload) {
+  simulateConsignedCredit(employeeId, consignedCreditValue) {
     return request({
-      url: '/agreedCompanies',
-      method: 'post',
-      data: payload,
+      url: `/consignedCredits/simulate/employees/${employeeId}`,
+      method: 'get',
+      params: { consignedCreditValue: consignedCreditValue },
     });
   },
 };

@@ -3,13 +3,12 @@
     <div>
       <v-row class="mt-2">
         <v-col cols="6">
-          <v-sheet rounded class="pa-4 custom-border">
-            Emprestimo Consignado
-          </v-sheet>
-        </v-col>
-        <v-col cols="6">
-          <v-sheet rounded class="pa-4 custom-border">
-            Cadastrar Empresa
+          <v-sheet
+            @click="onConsignedCreditClick"
+            rounded
+            class="pa-4 custom-border"
+          >
+            Credito Consignado
           </v-sheet>
         </v-col>
       </v-row>
@@ -18,7 +17,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    onConsignedCreditClick() {
+      this.$router.push('/credito-consignado');
+    },
+  },
+};
 </script>
 
 <style scoped>
