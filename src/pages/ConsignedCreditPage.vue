@@ -4,7 +4,7 @@
       <div class="pt-5">
         <v-row align="center">
           <v-col cols="auto">
-            <v-icon class="ma-0">mdi-chevron-up</v-icon>
+            <v-icon class="ma-0">mdi-chevron-left</v-icon>
           </v-col>
           <v-col>
             <v-breadcrumbs :items="items" divider="/"></v-breadcrumbs>
@@ -55,7 +55,11 @@
                 :clickedInstallmentIndex.sync="clickedInstallmentIndex"
                 v-if="currentStep == 2"
               />
-              <third-step v-if="currentStep == 3" />
+              <third-step
+                :consignedCreditValue="consignedCreditValue"
+                :installment="finalInstallment"
+                v-if="currentStep == 3"
+              />
             </div>
           </v-list-item-content>
         </v-list-item>
@@ -119,12 +123,11 @@ export default {
 
       currentStep: 1,
       consignedCreditValue: 0,
+      finalInstallment: {},
 
       installmentsArray: [],
       clickedInstallmentIndex: -1,
 
-      userStepMessage:
-        'Você possui saldo para Crédito Consignado pela empresa Seguros Seguradora. Faça uma simulação! Digite quanto você precisa',
       items: items,
       snackbarText: '',
       showSnackbar: false,
@@ -141,6 +144,8 @@ export default {
           return 'Simular Empréstimo';
         case 2:
           return 'Seguir';
+        case 3:
+          return 'Solicitar Emprestimo';
         default:
           return '';
       }
@@ -150,13 +155,62 @@ export default {
         case 1:
           return this.consignedCreditValue <= 0;
         case 2:
-          return false;
+          return this.clickedInstallmentIndex == -1;
         default:
           return false;
       }
     },
+    userStepMessage() {
+      switch (this.currentStep) {
+        case 1:
+          return 'Você possui saldo para Crédito Consignado pela empresa Seguros Seguradora. Faça uma simulação! Digite quanto você precisa';
+        case 2:
+          return 'Escolha a opção de Parcelemanto que melhor funciona para você:';
+        case 3:
+          return 'Pronto! Agora você já pode solicitar o empréstimo e recebê-lo na sua conta Credifit! Veja o resumo da simulação! ';
+
+        default:
+          return '';
+      }
+    },
   },
   methods: {
+    async createConsignedCredit() {
+      const payload = {
+        totalConsignedCredit: this.finalInstallment.installmentValue,
+        numberInstallments: this.finalInstallment.numberOfInstallments,
+        employeeId: this.employeeId,
+      };
+      try {
+        await consignedCreditService.createConsignedCredit(payload);
+      } catch (error) {
+        this.snackbarText = error.response.data.message;
+        this.showSnackbar = true;
+      }
+    },
+    async onNextBtnClick() {
+      try {
+        switch (this.currentStep) {
+          case 1:
+            await this.loadInfosSecondStep();
+            this.currentStep++;
+            break;
+          case 2:
+            await this.loadInfosThirsStep();
+            this.currentStep++;
+            break;
+          case 3:
+            await this.createConsignedCredit();
+            this.currentStep++;
+            break;
+          default:
+            return '';
+        }
+      } catch (error) {
+        this.snackbarText = error.response.data.message;
+        this.showSnackbar = true;
+      }
+    },
     onSliderValueChange(value) {
       this.consignedCreditValue = value;
     },
@@ -167,31 +221,22 @@ export default {
       }
       this.currentStep--;
     },
-    async onNextBtnClick() {
-      if (this.currentStep == 1) {
-        await this.loadInfosSecondStep();
-        this.currentStep++;
-      }
-      if (this.currentStep == 2) {
-        console.log('2');
-      }
-    },
     async loadInfosSecondStep() {
       const simulatioObject = await this.getConsignedCreditSimulateObject();
-      this.installmentsArray = simulatioObject.installments;
+      this.installmentsArray = simulatioObject?.installments || [];
+    },
+    async loadInfosThirsStep() {
+      const index = this.clickedInstallmentIndex;
+      if (this.installmentsArray[index]) {
+        this.finalInstallment = this.installmentsArray[index];
+      }
     },
     async getConsignedCreditSimulateObject() {
-      try {
-        const resp = await consignedCreditService.simulateConsignedCredit(
-          this.employeeId,
-          this.consignedCreditValue
-        );
-        return resp?.data || [];
-      } catch (error) {
-        console.log('Error', error.response.data.message);
-        this.snackbarText = error.response.data.message;
-        this.showSnackbar = true;
-      }
+      const resp = await consignedCreditService.simulateConsignedCredit(
+        this.employeeId,
+        this.consignedCreditValue
+      );
+      return resp?.data || [];
     },
     validateStep() {
       if (this.currentStep == 1) {

@@ -8,4 +8,11 @@ export default {
       params: { consignedCreditValue: consignedCreditValue },
     });
   },
+  createConsignedCredit(payload) {
+    return request({
+      url: `/consignedCredits`,
+      method: 'post',
+      data: payload,
+    });
+  },
 };

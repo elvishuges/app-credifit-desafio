@@ -7,10 +7,12 @@
           @click="onInstallmentClick(index)"
           rounded
           class="pa-4 custom-border"
-          :class="[{ highlight: clickedInstallmentIndex == index }]"
+          :class="
+            clickedInstallmentIndex == index ? 'custom-border-clicked ' : ''
+          "
         >
           <span class="text-grey font-weight-bold">
-            {{ item.numberOfInstallments }} X de R$
+            {{ item.numberOfInstallments }} x de R$
           </span>
           <span class="text-blue font-weight-bold">
             {{ item.installmentValue }}
@@ -45,11 +47,12 @@ export default {
 
 <style scoped>
 .custom-border {
-  /* Estilos personalizados aqui */
   border-left: 6px solid #e66900;
+  background-color: #fafafa;
 }
-.highlight {
+.custom-border-clicked {
   border-left: 6px solid #e66900;
+  background-color: #ffd899;
 }
 .installments {
   cursor: pointer;
